@@ -1,8 +1,7 @@
 import React, { useState, useCallback } from "react";
-import QuestionTimer from "./QuestionTimer.jsx";
+import Question from "./Question.jsx";
 import QUESTIONS from "../questions.js";
 import QuizComplete from "../assets/quiz-complete.png";
-import Answers from "./Answers.jsx";
 
 export default function Quiz() {
   const [userAnswers, setUserAnswers] = useState([]);
@@ -35,32 +34,22 @@ export default function Quiz() {
     [handleSelectAnswer]
   );
 
-  if (isQuizCompleted) {
-    return (
-      <div id='summary'>
-        <img src={QuizComplete} alt='Quiz completed' />
-        <h2>Quiz Completed!</h2>
-      </div>
-    );
-  }
-
-  return (
+  return isQuizCompleted ? (
+    <div id='summary'>
+      <img src={QuizComplete} alt='Quiz completed' />
+      <h2>Quiz Completed!</h2>
+    </div>
+  ) : (
     <div id='quiz'>
-      <div id='question'>
-        <QuestionTimer
-          key={"TimerId." + currentQuestionIdx}
-          timeout={10000}
-          onTimeout={handleTimeout}
-        />
-        <h2>{QUESTIONS[currentQuestionIdx].text}</h2>
-        <Answers
-          key={"AnswersId." + currentQuestionIdx}
-          answers={QUESTIONS[currentQuestionIdx].answers}
-          selectedAnswer={userAnswers[userAnswers.length - 1]}
-          answerState={answerState}
-          onSelect={handleSelectAnswer}
-        />
-      </div>
+      <Question
+        key={currentQuestionIdx}
+        questionText={QUESTIONS[currentQuestionIdx].text}
+        answers={QUESTIONS[currentQuestionIdx].answers}
+        answerState={answerState}
+        selectedAnswer={userAnswers[userAnswers.length - 1]}
+        onSelectAnswers={handleSelectAnswer}
+        handleTimeout={handleTimeout}
+      />
     </div>
   );
 }

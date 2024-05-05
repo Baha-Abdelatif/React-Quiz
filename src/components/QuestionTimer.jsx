@@ -5,7 +5,10 @@ export default function QuestionTimer({ onTimeout, timeout }) {
   const [remainingTime, setRemainingTime] = useState(timeout);
 
   useEffect(() => {
-    setTimeout(onTimeout, timeout);
+    const questionTimeout = setTimeout(onTimeout, timeout);
+    return () => {
+      clearTimeout(questionTimeout);
+    };
   }, [onTimeout, timeout]);
 
   useEffect(() => {
@@ -13,6 +16,7 @@ export default function QuestionTimer({ onTimeout, timeout }) {
       setRemainingTime((prevTime) => prevTime - 100);
     }, 100);
     return () => {
+      setRemainingTime(timeout);
       clearInterval(questionInterval);
     };
   }, []);

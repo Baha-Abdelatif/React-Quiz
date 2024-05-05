@@ -1,18 +1,30 @@
 import React, { useState } from "react";
 import { v4 as uuid } from "uuid";
 import QUESTIONS from "../questions.js";
+import QuizComplete from "../assets/quiz-complete.png";
 
 export default function Quiz() {
   const [userAnswers, setUserAnswers] = useState([]);
   const currentQuestionIdx = userAnswers.length;
-  const shuffledAnswers = QUESTIONS[currentQuestionIdx].answers;
-  shuffledAnswers.sort(() => 0.5 - Math.random());
+  const isQuizCompleted = currentQuestionIdx === QUESTIONS.length;
+
+  if (isQuizCompleted) {
+    return (
+      <div id='summary'>
+        <img src={QuizComplete} alt='Quiz completed' />
+        <h2>Quiz Completed!</h2>
+      </div>
+    );
+  }
 
   const handleSelectAnswer = (selectedAnswer) => {
     setUserAnswers((prevAnswers) => [...prevAnswers, selectedAnswer]);
   };
 
-  return currentQuestionIdx < 7 ? (
+  const shuffledAnswers = QUESTIONS[currentQuestionIdx].answers;
+  shuffledAnswers.sort(() => 0.5 - Math.random());
+
+  return (
     <div id='quiz'>
       <div id='question'>
         <h2>{QUESTIONS[currentQuestionIdx].text}</h2>
@@ -28,10 +40,6 @@ export default function Quiz() {
           })}
         </ul>
       </div>
-    </div>
-  ) : (
-    <div>
-      <h2>No more questions</h2>
     </div>
   );
 }

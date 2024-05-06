@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-export default function QuestionTimer({ onTimeout, timeout }) {
+export default function QuestionTimer({ onTimeout, timeout, mode }) {
   const [remainingTime, setRemainingTime] = useState(timeout);
 
   useEffect(() => {
@@ -16,16 +16,22 @@ export default function QuestionTimer({ onTimeout, timeout }) {
       setRemainingTime((prevTime) => prevTime - 100);
     }, 100);
     return () => {
-      setRemainingTime(timeout);
       clearInterval(questionInterval);
     };
   }, []);
 
   return (
-    <progress id='question-time' value={remainingTime} max={timeout} min={0} />
+    <progress
+      id='question-time'
+      className={mode}
+      value={remainingTime}
+      max={timeout}
+      min={0}
+    />
   );
 }
 QuestionTimer.propTypes = {
   timeout: PropTypes.number,
-  onTimeout: PropTypes.func,
+  onTimeout: PropTypes.func || null,
+  mode: PropTypes.string,
 };

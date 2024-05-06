@@ -14,7 +14,7 @@ export default function Question({
     isCorrect: null,
   });
 
-  let timer = 10000;
+  let timer = 15000;
   if (answer.selectedAnswer) {
     timer = 1000;
   }

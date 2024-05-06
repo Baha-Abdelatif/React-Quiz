@@ -19,7 +19,7 @@ export default function Summary({ userAnswers }) {
   count.skipped = ((skippedAnswers.length * 100) / QUESTIONS.length).toFixed();
   count.correct = ((correctAnswers.length * 100) / QUESTIONS.length).toFixed();
   count.wrong = ((wrongAnswers.length * 100) / QUESTIONS.length).toFixed();
-  console.log(count);
+
   return (
     <div id='summary'>
       <img src={QuizComplete} alt='Quiz completed' />
